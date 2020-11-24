@@ -16,6 +16,7 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->string('product_name',50);
+            $table->string('description',50)->nullable(true);
 
             $table->bigInteger('product_category_id')->unsigned();
             $table ->foreign('product_category_id')->references('id')->on('product_categories');
@@ -25,6 +26,9 @@ class CreateProductsTable extends Migration
 
             $table->bigInteger('sale_unit_id')->unsigned();
             $table ->foreign('sale_unit_id')->references('id')->on('units');
+
+            $table->integer('gst_rate')->default(12);
+            $table->string('hsn_code',12)->nullable(true);
 
             $table->tinyInteger('inforce')->default(1);
             $table->timestamps();
