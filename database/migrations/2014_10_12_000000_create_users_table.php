@@ -23,7 +23,7 @@ class CreateUsersTable extends Migration
             $table->string('mobile1',15)->nullable(true);
             $table->string('mobile2',15)->nullable(true);
 
-            $table->bigInteger('user_type_id')->unsigned();
+            $table->bigInteger('user_type_id')->unsigned()->default(2);
             $table ->foreign('user_type_id')->references('id')->on('user_types');
             $table->tinyInteger('inforce')->default(1);
             $table->timestamps();
