@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -14,12 +14,7 @@ class UserController extends Controller
     {
 
 
-//        $user = User::create(['user_name'=>'Arindam Biswas2',
-//                                'mobile1'=>'9836444999',
-//                                'mobile2'=>'',
-//                                'email'=>'arindam2',
-//                                'password'=>"81dc9bdb52d04dc20036dbd8313ed055",
-//                                'user_type_id'=>1]);
+
 
         $user = User::create([
             'email'    => $request->email,
@@ -28,11 +23,15 @@ class UserController extends Controller
             'user_type_id' => $request->user_type_id
         ]);
 
-        return response()->json(['success'=>1,'data'=>$user], 200,[],JSON_NUMERIC_CHECK);
+//        return response()->json(['success'=>1,'data'=>$user], 200,[],JSON_NUMERIC_CHECK);
 
-        //$token = auth()->login($user);
-        return response()->json(['success'=>1,'data'=>$user], 200,[],JSON_NUMERIC_CHECK);
-//        return $this->respondWithToken($token);
+        $token = $user->createToken('my-app-token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+        return response($response, 201);
     }
 
     function login(Request $request)
@@ -54,7 +53,17 @@ class UserController extends Controller
 
         return response($response, 201);
     }
-    function getUsers(){
+    function getCurrentUser(Request $request){
+        return $request->user();
+//        return User::get();
+
+    }
+
+    function getAllUsers(Request $request){
         return User::get();
+    }
+    function logout(Request $request){
+        $result = $request->user()->currentAccessToken()->delete();
+        return $result;
     }
 }

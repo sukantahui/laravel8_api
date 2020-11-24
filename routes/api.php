@@ -18,13 +18,20 @@ use App\Http\Controllers\UserController;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::group(['middleware' => 'auth:sanctum'], function(){
-    //All secure URL's
-    Route::get("users",[UserController::class,'getUsers']);
-});
-
 Route::post("login",[UserController::class,'login']);
 Route::post("register",[UserController::class,'register']);
+
+Route::group(['middleware' => 'auth:sanctum'], function(){
+    //All secure URL's
+    Route::get("user",[UserController::class,'getCurrentUser']);
+    Route::get("logout",[UserController::class,'logout']);
+
+    //get all users
+    Route::get("users",[UserController::class,'getAllUsers']);
+});
+
+
+
 
 Route::group(array('prefix' => 'dev'), function() {
 
