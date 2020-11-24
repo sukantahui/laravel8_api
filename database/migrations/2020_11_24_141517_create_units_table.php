@@ -17,6 +17,9 @@ class CreateUnitsTable extends Migration
             $table->id();
             $table->string('unit_name',10)->unique();
             $table->string('formal_name',50);
+
+            $table->tinyInteger('inforce')->default(1);
+            $table->timestamps();
         });
     }
 
