@@ -7,6 +7,7 @@ use Illuminate\Database\Seeder;
 use App\Models\User;
 use App\Models\Model\UserType;
 use App\Models\Model\ProductCategory;
+use App\Models\Model\TransactionType;
 
 class DatabaseSeeder extends Seeder
 {
@@ -38,6 +39,14 @@ class DatabaseSeeder extends Seeder
         Unit::create(['unit_name' => 'pcs', 'formal_name' => 'Pieces']);
         Unit::create(['unit_name' => 'gm', 'formal_name' => 'Gram']);
         Unit::create(['unit_name' => 'inch', 'formal_name' => 'Inches']);
+
+        // Product has separate file
+        // php artisan db:seed --class=ProductSeeder
+
+        //Transaction types
+        TransactionType::create(['transaction_name'=>'Dr.','formal_name'=>'Debit','transaction_type_value'=>1]);
+        TransactionType::create(['transaction_name'=>'Cr.','formal_name'=>'Credit','transaction_type_value'=>-1]);
+
 
     }
 }
